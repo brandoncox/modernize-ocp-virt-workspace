@@ -14,12 +14,14 @@ spec:
         vm.kubevirt.io/flavor: small
         vm.kubevirt.io/os: fedora
         vm.kubevirt.io/workload: server
-#        sidecar.istio.io/inject: 'true'
+        # sidecar.istio.io/inject: 'true'
+        istio.io/reroute-virtual-interfaces: "k6t-eth0"
       labels:
         kubevirt.io/domain: control-vm
         kubevirt.io/size: small
         app: control-vm
         version: v1
+        # sidecar.istio.io/inject: 'true'
     spec:
       runStrategy: Always
       dataVolumeTemplates:
@@ -43,12 +45,14 @@ spec:
             vm.kubevirt.io/flavor: small
             vm.kubevirt.io/os: fedora
             vm.kubevirt.io/workload: server
-    #        sidecar.istio.io/inject: 'true'
+            # sidecar.istio.io/inject: 'true'
+            istio.io/reroute-virtual-interfaces: "k6t-eth0"
           labels:
             kubevirt.io/domain: control-vm
             kubevirt.io/size: small
             app: control-vm
             version: v1
+            # sidecar.istio.io/inject: 'true'
         spec:
           architecture: amd64
           domain:
@@ -78,7 +82,7 @@ spec:
             machine:
               type: pc-q35-rhel9.4.0
             memory:
-              guest: 2Gi
+              guest: 1Gi
             resources: {}
           networks:
             - name: default
@@ -92,7 +96,7 @@ spec:
               userData: |-
                 #cloud-config
                 user: fedora
-                password: ukqo-2vq4-xdjf
+                password: redhat
                 chpasswd: { expire: False }
                 ssh_pwauth: true
                 runcmd:
@@ -103,17 +107,14 @@ spec:
                 - content: |
                     [Unit]
                     Description=Fedora Control Container
-
                     [Container]
                     Label=app=control-container
                     ContainerName=control-container
                     Image=quay.io/kiali/demo_travels_control:v1
                     Environment=PORTAL_SERVICES='voyages.fr;http://voyages.travel-portal.svc.cluster.local:8000,viaggi.it;http://viaggi.travel-portal.svc.cluster.local:8000,travels.uk;http://travels.travel-portal.svc.cluster.local:8000'
                     PodmanArgs=-p 8080:8080
-
                     [Install]
                     WantedBy=multi-user.target default.target
-
                     [Service]
                     Restart=always
                   path: /etc/containers/systemd/users/control.container
