@@ -1,8 +1,5 @@
 #!/bin/bash
 
-sleep 10
-
-
 echo
 echo "Update VirtualMachine CRs to include in the mesh by injecting Istio sidecars to components"
 echo "------------------------------------------------------------------------------------------"
@@ -10,43 +7,44 @@ echo
 
 USERNAME=$(oc whoami)
 
-oc patch VirtualMachine/cars-vm --type merge -p '{"spec":{"template":{"metadata":{"annotations":{"sidecar.istio.io/inject": "true"}}}}}' -n ${USERNAME}-travel-agency
+# cars-vm
 oc patch VirtualMachine/cars-vm --type merge -p '{"spec":{"template":{"metadata":{"labels":{"sidecar.istio.io/inject": "true"}}}}}' -n ${USERNAME}-travel-agency
+oc patch VirtualMachine/cars-vm --type merge -p '{"spec":{"template":{"metadata":{"annotations":{"sidecar.istio.io/inject": "true"}}}}}' -n ${USERNAME}-travel-agency
 oc delete pods -l vm.kubevirt.io/name=cars-vm -n ${USERNAME}-travel-agency
 
-
-oc patch VirtualMachine/discounts-vm --type merge -p '{"spec":{"template":{"metadata":{"annotations":{"sidecar.istio.io/inject": "true"}}}}}' -n ${USERNAME}-travel-agency
+# discounts-vm
 oc patch VirtualMachine/discounts-vm --type merge -p '{"spec":{"template":{"metadata":{"labels":{"sidecar.istio.io/inject": "true"}}}}}' -n ${USERNAME}-travel-agency
+oc patch VirtualMachine/discounts-vm --type merge -p '{"spec":{"template":{"metadata":{"annotations":{"sidecar.istio.io/inject": "true"}}}}}' -n ${USERNAME}-travel-agency
 oc delete pods -l vm.kubevirt.io/name=discounts-vm -n ${USERNAME}-travel-agency
 
-
-oc patch VirtualMachine/flights-vm --type merge -p '{"spec":{"template":{"metadata":{"annotations":{"sidecar.istio.io/inject": "true"}}}}}' -n ${USERNAME}-travel-agency
+# flights-vm
 oc patch VirtualMachine/flights-vm --type merge -p '{"spec":{"template":{"metadata":{"labels":{"sidecar.istio.io/inject": "true"}}}}}' -n ${USERNAME}-travel-agency
+oc patch VirtualMachine/flights-vm --type merge -p '{"spec":{"template":{"metadata":{"annotations":{"sidecar.istio.io/inject": "true"}}}}}' -n ${USERNAME}-travel-agency
 oc delete pods -l vm.kubevirt.io/name=flights-vm -n ${USERNAME}-travel-agency
 
-
-oc patch VirtualMachine/hotels-vm --type merge -p '{"spec":{"template":{"metadata":{"annotations":{"sidecar.istio.io/inject": "true"}}}}}' -n ${USERNAME}-travel-agency
+# hotels-vm
 oc patch VirtualMachine/hotels-vm --type merge -p '{"spec":{"template":{"metadata":{"labels":{"sidecar.istio.io/inject": "true"}}}}}' -n ${USERNAME}-travel-agency
+oc patch VirtualMachine/hotels-vm --type merge -p '{"spec":{"template":{"metadata":{"annotations":{"sidecar.istio.io/inject": "true"}}}}}' -n ${USERNAME}-travel-agency
 oc delete pods -l vm.kubevirt.io/name=hotels-vm -n ${USERNAME}-travel-agency
 
-
-oc patch VirtualMachine/insurances-vm --type merge -p '{"spec":{"template":{"metadata":{"annotations":{"sidecar.istio.io/inject": "true"}}}}}' -n ${USERNAME}-travel-agency
+# insurances-vm
 oc patch VirtualMachine/insurances-vm --type merge -p '{"spec":{"template":{"metadata":{"labels":{"sidecar.istio.io/inject": "true"}}}}}' -n ${USERNAME}-travel-agency
+oc patch VirtualMachine/insurances-vm --type merge -p '{"spec":{"template":{"metadata":{"annotations":{"sidecar.istio.io/inject": "true"}}}}}' -n ${USERNAME}-travel-agency
 oc delete pods -l vm.kubevirt.io/name=insurances-vm -n ${USERNAME}-travel-agency
 
-
-oc patch VirtualMachine/mysqldb-vm --type merge -p '{"spec":{"template":{"metadata":{"annotations":{"sidecar.istio.io/inject": "true"}}}}}' -n ${USERNAME}-travel-agency
+# mysqldb-vm
 oc patch VirtualMachine/mysqldb-vm --type merge -p '{"spec":{"template":{"metadata":{"labels":{"sidecar.istio.io/inject": "true"}}}}}' -n ${USERNAME}-travel-agency
+oc patch VirtualMachine/mysqldb-vm --type merge -p '{"spec":{"template":{"metadata":{"annotations":{"sidecar.istio.io/inject": "true"}}}}}' -n ${USERNAME}-travel-agency
 oc delete pods -l vm.kubevirt.io/name=mysqldb-vm -n ${USERNAME}-travel-agency
 
-
-oc patch VirtualMachine/travels-vm --type merge -p '{"spec":{"template":{"metadata":{"annotations":{"sidecar.istio.io/inject": "true"}}}}}' -n ${USERNAME}-travel-agency
+# travels-vm
 oc patch VirtualMachine/travels-vm --type merge -p '{"spec":{"template":{"metadata":{"labels":{"sidecar.istio.io/inject": "true"}}}}}' -n ${USERNAME}-travel-agency
+oc patch VirtualMachine/travels-vm --type merge -p '{"spec":{"template":{"metadata":{"annotations":{"sidecar.istio.io/inject": "true"}}}}}' -n ${USERNAME}-travel-agency
 oc delete pods -l vm.kubevirt.io/name=travels-vm -n ${USERNAME}-travel-agency
 
 echo
 echo
 echo
-sleep 5
+sleep 3
 
 oc get pods -n ${USERNAME}-travel-agency
