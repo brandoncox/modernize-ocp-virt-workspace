@@ -75,7 +75,7 @@ echo
 echo "Waiting for VirtualMachines to be created..."
 echo "=================================================================="
 
-TIMEOUT=600  # 10 minutes in seconds
+TIMEOUT=300  # 10 minutes in seconds
 INTERVAL=10  # Check every 10 seconds
 ELAPSED=0
 
