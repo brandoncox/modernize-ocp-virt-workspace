@@ -68,4 +68,42 @@ done
 echo "=================================================================="
 echo "Completed applying application-travel-control.yaml for users 1 to ${NUM_USERS}"
 echo "=================================================================="
+echo
 
+# check if number of all vms combined in userX-travel-control-new namespaces matches the number of users
+# if not, try again after 10 seconds until timeout of 10 minutes.
+echo "Waiting for VirtualMachines to be created..."
+echo "=================================================================="
+
+TIMEOUT=600  # 10 minutes in seconds
+INTERVAL=10  # Check every 10 seconds
+ELAPSED=0
+
+while [ $ELAPSED -lt $TIMEOUT ]; do
+    # Count all VirtualMachines in userX-travel-control-new namespaces
+    VM_OUTPUT=$(oc get VirtualMachine --all-namespaces 2>/dev/null | grep "travel-control-new" | grep -v "^NAMESPACE")
+    VM_COUNT=$(echo "$VM_OUTPUT" | grep -v "^$" | wc -l | tr -d ' ')
+    
+    if [ -z "$VM_COUNT" ] || [ "$VM_COUNT" = "0" ]; then
+        VM_COUNT=0
+    fi
+    
+    if [ "$VM_COUNT" -eq "$NUM_USERS" ]; then
+        echo "✓ All ${VM_COUNT} VirtualMachines have been created!"
+        break
+    fi
+    
+    echo "  Found ${VM_COUNT}/${NUM_USERS} VirtualMachines. Waiting 10 seconds... (elapsed: ${ELAPSED}s / ${TIMEOUT}s)"
+    sleep $INTERVAL
+    ELAPSED=$((ELAPSED + INTERVAL))
+done
+
+if [ $ELAPSED -ge $TIMEOUT ]; then
+    echo "Warning: Timeout reached. Expected ${NUM_USERS} VirtualMachines but found ${VM_COUNT}."
+    echo "Current VirtualMachine status:"
+    oc get VirtualMachine --all-namespaces 2>/dev/null | grep "travel-control-new" || echo "  No VirtualMachines found in travel-control-new namespaces"
+fi
+
+echo "=================================================================="
+echo "VM verification completed"
+echo "=================================================================="
