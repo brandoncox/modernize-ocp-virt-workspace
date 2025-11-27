@@ -85,3 +85,41 @@ echo "=================================================================="
 echo "Completed deleting all pods for users (user1 to user${NUM_USERS})"
 echo "=================================================================="
 
+# Wait for all pods in travel-agency and travel-control namespaces to have 3 containers ready
+echo "Waiting for pods to be ready with 3 containers..."
+echo "=================================================================="
+
+TIMEOUT=600  # 10 minutes in seconds
+INTERVAL=10  # Check every 10 seconds
+ELAPSED=0
+
+while [ $ELAPSED -lt $TIMEOUT ]; do
+    # Get all pods in one API call, filtering by namespace pattern
+    POD_OUTPUT=$(oc get pods --all-namespaces -o wide 2>/dev/null | grep -E "travel-(control|agency)" | grep -v "travel-control-new" | grep -v "^NAMESPACE")
+    
+    # Extract READY column (3rd column) and check if all are 3/3
+    NOT_READY=$(echo "$POD_OUTPUT" | awk '{if ($3 != "3/3" && $3 != "") print $1 " " $2 " " $3}')
+    
+    if [ -z "$NOT_READY" ]; then
+        echo "All pods are ready with 3 containers!"
+        break
+    fi
+    
+    # Show pods that are not ready
+    echo "  Pods not ready with 3/3:"
+    echo "$NOT_READY" | awk '{print "    " $2 " in " $1 ": " $3}'
+    
+    echo "  Waiting 10 seconds... (elapsed: ${ELAPSED}s / ${TIMEOUT}s)"
+    sleep $INTERVAL
+    ELAPSED=$((ELAPSED + INTERVAL))
+done
+
+if [ $ELAPSED -ge $TIMEOUT ]; then
+    echo "Warning: Timeout reached. Some pods may not be ready with 3 containers."
+    echo "Current pod status:"
+    oc get pods --all-namespaces -o wide 2>/dev/null | grep -E "travel-(control|agency)" | grep -v "travel-control-new" | grep -v "^NAMESPACE" | awk '{print "  " $2 " in " $1 ": " $3}'
+fi
+
+echo "=================================================================="
+echo "Completed waiting for pods to be ready with 3 containers"
+echo "=================================================================="
