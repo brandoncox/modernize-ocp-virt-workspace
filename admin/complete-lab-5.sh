@@ -15,15 +15,6 @@ if ! [[ "$NUM_USERS" =~ ^[1-9][0-9]*$ ]]; then
     exit 1
 fi
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-APPLICATION_FILE="${SCRIPT_DIR}/application-travel-control.yaml"
-
-# Check if application file exists
-if [ ! -f "${APPLICATION_FILE}" ]; then
-    echo "Error: application-travel-control.yaml not found at ${APPLICATION_FILE}"
-    exit 1
-fi
-
 echo "Applying application-travel-control.yaml to namespaces user1-travel-control-new to user${NUM_USERS}-travel-control-new"
 echo "=================================================================="
 echo
