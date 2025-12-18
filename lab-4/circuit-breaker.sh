@@ -1,5 +1,6 @@
 #!/bin/bash
 
+USERNAME=$(oc whoami)
 
 echo
 echo
@@ -9,11 +10,11 @@ echo "kind: DestinationRule
 apiVersion: networking.istio.io/v1alpha3
 metadata:
   name: cars
-  namespace: travel-agency
+  namespace: ${USERNAME}-travel-agency
   labels:
     module: m4
 spec:
-  host: cars-vm.travel-agency.svc.cluster.local
+  host: cars-vm.${USERNAME}-travel-agency.svc.cluster.local
   subsets:
     - labels:
         version: v1
@@ -40,11 +41,11 @@ echo "kind: DestinationRule
 apiVersion: networking.istio.io/v1alpha3
 metadata:
   name: cars
-  namespace: travel-agency
+  namespace: ${USERNAME}-travel-agency
   labels:
     module: m4
 spec:
-  host: cars-vm.travel-agency.svc.cluster.local
+  host: cars-vm.${USERNAME}-travel-agency.svc.cluster.local
   subsets:
     - labels:
         version: v1
@@ -63,4 +64,4 @@ spec:
           baseEjectionTime: 3m
           consecutive5xxErrors: 1
           interval: 1s
-          maxEjectionPercent: 100"|oc  -n travel-agency apply -f -
+          maxEjectionPercent: 100"|oc  -n ${USERNAME}-travel-agency apply -f -
