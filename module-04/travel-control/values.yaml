@@ -4,4 +4,4 @@
 
 username: user1
 
-ossm_ingress: ingress-gateway.domain.com
+ossm_ingress: userX-ingress-istio-gateway.apps.example.com

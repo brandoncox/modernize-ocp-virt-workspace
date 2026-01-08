@@ -1,0 +1,20 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: control-vm-httproute
+  namespace: {{ .Values.username }}-travel-control-new
+spec:
+  parentRefs:
+  - name: gateway-shared
+    namespace: istio-gateway
+  hostnames:
+  - "{{ .Values.ossm_ingress }}"
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
+    - name: control-vm
+      port: 8080
