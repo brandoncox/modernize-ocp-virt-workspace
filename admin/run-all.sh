@@ -44,6 +44,7 @@ echo
 # Array of scripts to run in order
 SCRIPTS=(
     "01-add-services-to-mesh.sh"
+    "02-add-canary-release.sh"
     "03-add-gitops-travel-control.sh"
 )
 

@@ -44,7 +44,7 @@ metadata:
 spec:
   project: default
   source:
-    path: lab-5/travel-control
+    path: module-03/travel-control
     repoURL: https://github.com/rhpds/modernize-ocp-virt-workspace.git
     targetRevision: HEAD
     helm:

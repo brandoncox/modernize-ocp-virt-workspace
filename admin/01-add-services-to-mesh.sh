@@ -82,7 +82,7 @@ echo "=================================================================="
 oc get pods --all-namespaces -l vm.kubevirt.io/name -o jsonpath='{range .items[*]}pod/{.metadata.name} -n {.metadata.namespace}{"\n"}{end}' | grep -E "travel-(control|agency)" | xargs -L1 oc delete --wait=false 2>/dev/null
 
 echo "=================================================================="
-echo "Completed deleting all pods for users (user1 to user${NUM_USERS})"
+echo "Completed deleting all pods for all users"
 echo "=================================================================="
 
 # Wait for all pods in travel-agency and travel-control namespaces to have 3 containers ready
