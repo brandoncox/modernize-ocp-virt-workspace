@@ -46,6 +46,7 @@ SCRIPTS=(
     "01-add-services-to-mesh.sh"
     "02-add-canary-release.sh"
     "03-add-gitops-travel-control.sh"
+    "04-validate-travel-service.sh"
 )
 
 # Run each script in order
