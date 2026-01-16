@@ -2,6 +2,6 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-username: user1
+username: userX
 
 ossm_ingress: userX-ingress-istio-gateway.apps.example.com
