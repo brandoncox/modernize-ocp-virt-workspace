@@ -65,7 +65,7 @@ spec:
         machine:
           type: pc-q35-rhel9.4.0
         memory:
-          guest: 2Gi
+          guest: 1Gi
         resources: {}
       networks:
         - name: default
